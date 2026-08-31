@@ -21,12 +21,13 @@ source:
     - pyproject.patch
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   # See https://conda-forge.org/docs/maintainer/knowledge_base/#placing-requirements-in-build-or-host and
   # https://conda-forge.org/docs/maintainer/knowledge_base/#details-about-cross-compiled-python-packages.
   build:
+    - {{ compiler('c') }}  # [unix]
     - {{ compiler('cxx') }}
     - {{ stdlib('c') }}
     - cross-python_{{ target_platform }}  # [build_platform != target_platform]
@@ -35,6 +36,7 @@ requirements:
     - python                              # [build_platform != target_platform]
     - cmake
     - jom   # [win]
+    - lld   # [linux]
     - make  # [unix]
     - pkg-config
   host:
@@ -62,6 +64,7 @@ outputs:
         - {{ pin_subpackage('librdkit', exact=True) }}
     requirements:
       build:
+        - {{ compiler("c") }}  # [unix]
         - {{ compiler("cxx") }}
         - {{ stdlib("c") }}
         - cmake
@@ -123,6 +126,7 @@ outputs:
     script: install.bat  # [win]
     requirements:
       build:
+        - {{ compiler('c') }}  # [unix]
         - {{ compiler('cxx') }}
         - {{ stdlib('c') }}
         - cross-python_{{ target_platform }}  # [build_platform != target_platform]
@@ -233,6 +237,7 @@ outputs:
     script: install.bat  # [win]
     requirements:
       build:
+        - {{ compiler('c') }}  # [unix]
         - {{ compiler('cxx') }}
         - {{ stdlib("c") }}
         - postgresql  # [build_platform != target_platform]

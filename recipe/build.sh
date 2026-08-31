@@ -23,6 +23,10 @@ for d in "${HOST_PYTHON_INCLUDE_DIR}" "${HOST_NUMPY_INCLUDE_DIR}"; do
 done
 EXTRA_CMAKE_FLAGS=" -D Python3_NumPy_INCLUDE_DIR=${HOST_NUMPY_INCLUDE_DIR} -D Python3_INCLUDE_DIR=${HOST_PYTHON_INCLUDE_DIR}"
 
+if [[ "${target_platform}" == linux-* ]]; then
+  export LDFLAGS="${LDFLAGS:-} -fuse-ld=lld"
+fi
+
 
 PG_CONFIG="$(which pg_config)"
 if [[ "${target_platform}" == "osx-arm64" || "${target_platform}" == "linux-ppc64le" || "${target_platform}" == "linux-aarch64" ]]; then
@@ -55,6 +59,7 @@ time cmake ${CMAKE_ARGS} \
     -D RDK_BUILD_YAEHMOP_SUPPORT=ON \
     -D RDK_INSTALL_INTREE=OFF \
     -D RDK_INSTALL_STATIC_LIBS=OFF \
+    -D RDK_LTO_MODE=THIN \
     -D RDK_OPTIMIZE_POPCNT="${POPCNT_OPTIMIZATION}" \
     -D RDK_PGSQL_STATIC=OFF \
     ${EXTRA_CMAKE_FLAGS} \
