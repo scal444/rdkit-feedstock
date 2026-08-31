@@ -27,8 +27,9 @@ requirements:
   # See https://conda-forge.org/docs/maintainer/knowledge_base/#placing-requirements-in-build-or-host and
   # https://conda-forge.org/docs/maintainer/knowledge_base/#details-about-cross-compiled-python-packages.
   build:
-    - {{ compiler('c') }}  # [unix]
-    - {{ compiler('cxx') }}
+    - {{ compiler('clang') }}    # [unix]
+    - {{ compiler('clangxx') }}  # [unix]
+    - {{ compiler('cxx') }}      # [win]
     - {{ stdlib('c') }}
     - cross-python_{{ target_platform }}  # [build_platform != target_platform]
     - numpy                               # [build_platform != target_platform]
@@ -64,8 +65,9 @@ outputs:
         - {{ pin_subpackage('librdkit', exact=True) }}
     requirements:
       build:
-        - {{ compiler("c") }}  # [unix]
-        - {{ compiler("cxx") }}
+        - {{ compiler("clang") }}    # [unix]
+        - {{ compiler("clangxx") }}  # [unix]
+        - {{ compiler("cxx") }}      # [win]
         - {{ stdlib("c") }}
         - cmake
       host:
@@ -126,8 +128,9 @@ outputs:
     script: install.bat  # [win]
     requirements:
       build:
-        - {{ compiler('c') }}  # [unix]
-        - {{ compiler('cxx') }}
+        - {{ compiler('clang') }}    # [unix]
+        - {{ compiler('clangxx') }}  # [unix]
+        - {{ compiler('cxx') }}      # [win]
         - {{ stdlib('c') }}
         - cross-python_{{ target_platform }}  # [build_platform != target_platform]
         - numpy                               # [build_platform != target_platform]
@@ -237,8 +240,9 @@ outputs:
     script: install.bat  # [win]
     requirements:
       build:
-        - {{ compiler('c') }}  # [unix]
-        - {{ compiler('cxx') }}
+        - {{ compiler('clang') }}    # [unix]
+        - {{ compiler('clangxx') }}  # [unix]
+        - {{ compiler('cxx') }}      # [win]
         - {{ stdlib("c") }}
         - postgresql  # [build_platform != target_platform]
         - cmake
